@@ -1,13 +1,15 @@
-import { useCallback, useState } from "react";
 import { BeatType } from "./types"
+import { useCallback, useState } from "react";
 import { EditBeatArgs } from "@/hooks/useCreateBeat";
+import { Button, Form, Input, Space } from "antd";
 
 interface BeatFormProps {
   onSubmit: (beatArgs: EditBeatArgs) => void;
+  onCancel: () => void;
   beat?: BeatType;
 }
 
-export function BeatForm({onSubmit, beat}: BeatFormProps): JSX.Element {
+export function BeatForm({onCancel, onSubmit, beat}: BeatFormProps): JSX.Element {
   const [beatName, setBeatName] = useState<string>(beat?.name ?? '');
   const [beatContent, setBeatContent] = useState<string>(beat?.content ?? '');
   const [beatCameraAngle, setBeatCameraAngle] = useState<string>(beat?.cameraAngle ?? '');
@@ -30,9 +32,7 @@ export function BeatForm({onSubmit, beat}: BeatFormProps): JSX.Element {
     setBeatTime(e.target.value);
   },[]);
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = useCallback(() => {
     if (beatName == null || beatContent == null || beatCameraAngle == null || beatNotes == null || beatTime == null) {
       return;
     }
@@ -57,30 +57,28 @@ export function BeatForm({onSubmit, beat}: BeatFormProps): JSX.Element {
   );
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="beatName">Beat Name:</label>
-        <input type="text" name="beatName" onChange={handleNameChange}/>
-      </div>
-      <div>
-        <label htmlFor="beatContent">Beat Content:</label>
-        <input type="text" name="beatContent" onChange={handleContentChange}/>
-      </div>
-      <div>
-        <label htmlFor="beatCameraAngle">Beat Camera Angle:</label>
-        <input type="text" name="beatCameraAngle" onChange={handleCameraAngleChange}/>
-      </div>
-      <div>
-        <label htmlFor="beatNotes">Beat Notes:</label>
-        <input type="text" name="beatNotes" onChange={handleNotesChange}/>
-      </div>
-      <div>
-        <label htmlFor="beatTime">Beat Time:</label>
-        <input type="text" name="beatTime" onChange={handleTimeChange}/>
-      </div>
-      <div>
-        <input type="submit" value="Submit" disabled={isDisabled}/>
-      </div>
-    </form>
+    <Form onFinish={handleSubmit}>
+      <Form.Item label="Beat Name" required>
+        <Input type="text" onChange={handleNameChange} value={beatName}/>
+      </Form.Item>
+      <Form.Item label="Beat Content" required>
+        <Input type="text" onChange={handleContentChange} value={beatContent}/>
+      </Form.Item>
+      <Form.Item label="Beat Camera Angle" required>
+        <Input type="text" onChange={handleCameraAngleChange} value={beatCameraAngle}/>
+      </Form.Item>
+      <Form.Item label="Beat Notes" required>
+        <Input type="text" onChange={handleNotesChange} value={beatNotes}/>
+      </Form.Item>
+      <Form.Item label="Beat Time" required>
+        <Input type="text" onChange={handleTimeChange} value={beatTime}/>
+      </Form.Item>
+      <Form.Item>
+        <Space>
+          <Button type="default" onClick={onCancel}>Cancel</Button>
+          <Button type="primary" htmlType="submit" disabled={isDisabled}>Save</Button>
+        </Space>
+      </Form.Item>
+    </Form>
   );
 }
