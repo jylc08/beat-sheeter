@@ -8,7 +8,13 @@ export const Header = styled(Layout.Header)`
   align-items: center;
 `;
 
-export const HeaderTitle = styled(Typography.Text)`
+export const HeaderActions = styled.div`
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+`;
+
+const HeaderTitle = styled(Typography.Text)`
   color: white;
   margin-left: 10px;
   font-weight: 700;
@@ -18,16 +24,23 @@ export const HeaderTitle = styled(Typography.Text)`
   }
 `;
 
-export const HeaderActions = styled.div`
-  display: flex;
-  flex-grow: 1;
-  justify-content: flex-end;
-`;
-
-export const HeaderIcon = styled(YoutubeOutlined)`
+const HeaderIcon = styled(YoutubeOutlined)`
   > svg {
     width: 40px;
     height: 40px;
   }
   color: white;
 `;
+
+const HeaderLogoContainer = styled.div`
+  display: flex;
+  align-items: center;  
+`;
+
+export const HeaderLogo = () => {
+  return (
+    <HeaderLogoContainer>
+      <HeaderIcon/><HeaderTitle/>
+    </HeaderLogoContainer>
+  )
+};

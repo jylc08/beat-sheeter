@@ -4,9 +4,8 @@ import { useRouter } from "next/router";
 import { Layout, Button, Form, Input, Typography, Divider, Space } from "antd";
 import {
   Header,
-  HeaderTitle,
   HeaderActions,
-  HeaderIcon,
+  HeaderLogo
 } from '@/components/Header';
 import Link from "next/link";
 import { RollbackOutlined } from "@ant-design/icons";
@@ -41,8 +40,7 @@ export default function NewActPage() {
   return (
     <Layout>
       <Header>
-        <HeaderIcon/>
-        <HeaderTitle/>
+        <HeaderLogo/>
         <HeaderActions>
           <Link href="/">
             <Button type="default"><RollbackOutlined/>Return To Beatsheet</Button>

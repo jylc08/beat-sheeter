@@ -12,21 +12,18 @@ import {
 import { PlusOutlined } from '@ant-design/icons';
 import {
   Header,
-  HeaderTitle,
-  HeaderActions,
-  HeaderIcon,
+  HeaderLogo,
 } from '@/components/Header';
-import { Content } from '@/components/Content';
+import { Content, ContentHeader } from '@/components/Content';
 
 const ActList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 25px;
 `;
 
 export default function BeetSheetPage() {
-  // would add loading states and server side fetch
-  // error handling
   const { data: acts } = useActs();
 
   return (
@@ -39,24 +36,20 @@ export default function BeetSheetPage() {
       </Head>
       <Layout>
         <Header>
-          <HeaderIcon/>
-          <HeaderTitle/>
-          <HeaderActions>
-            <Link href="/act/new">
-              <Button type="primary"><PlusOutlined/>Add New Act</Button>
-            </Link>
-          </HeaderActions>
+          <HeaderLogo/>
         </Header>
         <Content>
           <Typography.Title>My Awesome Beat Sheet</Typography.Title>
           <Divider/>
-          <Typography.Title level={2}>Acts</Typography.Title>
+          <ContentHeader>
+            <Typography.Title level={2}>Acts</Typography.Title>
+            <Link href="/act/new">
+              <Button type="primary"><PlusOutlined/>Add New Act</Button>
+            </Link>
+          </ContentHeader>
           <ActList>
             {acts?.map((act, index) => (
-              <div key={act.id}>
-                <Act act={act} count={index+1} key={act.id}/>
-                {index < acts.length - 1 && <Divider/>}
-              </div>
+              <Act act={act} count={index+1} key={act.id}/>
             ))}
           </ActList>
         </Content>

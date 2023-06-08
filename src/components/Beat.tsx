@@ -1,65 +1,53 @@
 import { styled } from "styled-components";
 import { BeatType } from "./types";
-import Link from "next/link";
-import { useActId } from "@/hooks/useRouterQueryId";
-import { useCallback } from "react";
-import { useDeleteBeat } from "@/hooks/useDeleteBeat";
-import { useRouter } from "next/router";
+import { Popover, Space, Typography } from "antd";
 
 interface BeatProps {
   beat: BeatType;
-  showDetails?: boolean;
 }
 
 const Container = styled.div`
-  border: 1px solid #eee;
+  border: 1px solid #dbe0ec;
+  // color: #6b6c6c;
+  background-color: #f0f4ff;
   flex-grow: 1;
-  padding: 5px;
+  padding: 5px 25px;
+  // font-weight: 600;
   border-radius: 20px;
-`;
-
-const BeatDetails = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 5px;
+  align-items: center;
 `;
 
-export const Beat = ({beat, showDetails = false}: BeatProps): JSX.Element => {
-  const actId = useActId();
+const BeatTime = styled.div`
+  .ant-typography {
+  }
+  color: #3d8ada;
+  font-weight: 500;
+`;
 
-  const { deleteBeat } = useDeleteBeat(beat.id);
-  const handleDeleteBeat = useCallback(() => {
-    deleteBeat()
-      .then(() => {
-        // re-sync act data
-      })
-      .catch(() => {
-        console.error('Getting a 405 method not allowed from the endpoint');
-      });
-  }, [deleteBeat]);
+const BeatName = styled.div`
+color: #64748b;
+  .ant-typography {
+  }
+  font-weight: 500;
+`;
+
+export const Beat = ({beat}: BeatProps): JSX.Element => {
+  const hoverContent = (
+    <>
+      <Typography.Paragraph><Typography.Text strong>Notes:</Typography.Text> {beat.notes}</Typography.Paragraph>
+      <Typography.Paragraph><Typography.Text strong>Camera Angle:</Typography.Text> {beat.cameraAngle}</Typography.Paragraph>
+    </>
+  );
   
   return (
-    <Container>
-      {beat.time}&nbsp;
-      {beat.name}
-      {showDetails && (
-        <BeatDetails>
-          Content: {beat.content}
-          Notes: {beat.notes}
-        </BeatDetails>
-      )}
-      {actId != null && (
-        <Link href={`/act/${actId}/beat/${beat.id}`}>
-          <button>View Beat</button>
-        </Link>
-      )}
-      {actId != null && (
-        <Link href={`/act/${actId}/beat/${beat.id}/edit`}>
-          <button>Edit Beat</button>
-        </Link>
-      )}
-      <button onClick={handleDeleteBeat}>Delete Beat</button>
-    </Container>
+    <Popover title={beat.content} content={hoverContent} trigger="hover">
+      <Container>
+        <Space>
+          <BeatTime>{beat.time}</BeatTime>
+          <BeatName>{beat.name}</BeatName>
+        </Space>
+      </Container>
+    </Popover>
   );
 }

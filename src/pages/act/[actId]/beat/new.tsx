@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { EditBeatArgs, useCreateBeat } from "@/hooks/useCreateBeat";
 import { BeatForm } from "@/components/BeatForm";
-import { Header, HeaderActions, HeaderIcon, HeaderTitle } from "@/components/Header";
+import { Header, HeaderActions, HeaderLogo } from "@/components/Header";
 import { useActId } from "@/hooks/useRouterQueryId";
 import { useRouter } from "next/router";
 import { Content } from "@/components/Content";
@@ -28,8 +28,7 @@ export default function NewBeatPage() {
   return (
     <Layout>
       <Header>
-        <HeaderIcon/>
-        <HeaderTitle/>
+        <HeaderLogo/>
         <HeaderActions>
           <Link href={`/act/${actId}`}>
             <Button type="default"><RollbackOutlined/>Return To Act</Button>

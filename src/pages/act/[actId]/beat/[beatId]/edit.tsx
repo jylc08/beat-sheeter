@@ -1,6 +1,6 @@
 import { BeatForm } from "@/components/BeatForm";
 import { Content } from "@/components/Content";
-import { Header, HeaderActions, HeaderIcon, HeaderTitle } from "@/components/Header";
+import { Header, HeaderActions, HeaderLogo } from "@/components/Header";
 import { useBeat } from "@/hooks/useBeat";
 import { EditBeatArgs } from "@/hooks/useCreateBeat";
 import { useEditBeat } from "@/hooks/useEditBeat";
@@ -32,8 +32,7 @@ const EditBeatPage = () => {
   return (
     <Layout>
       <Header>
-        <HeaderIcon/>
-        <HeaderTitle/>
+        <HeaderLogo/>
         <HeaderActions>
           <Link href={`/act/${actId}`}>
             <Button type="default"><RollbackOutlined/>Return To Act</Button>

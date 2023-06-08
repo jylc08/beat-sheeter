@@ -58,19 +58,19 @@ export function BeatForm({onCancel, onSubmit, beat}: BeatFormProps): JSX.Element
 
   return (
     <Form onFinish={handleSubmit}>
-      <Form.Item label="Beat Name" required>
+      <Form.Item label="Name" required>
         <Input type="text" onChange={handleNameChange} value={beatName}/>
       </Form.Item>
-      <Form.Item label="Beat Content" required>
+      <Form.Item label="Content" required>
         <Input type="text" onChange={handleContentChange} value={beatContent}/>
       </Form.Item>
-      <Form.Item label="Beat Camera Angle" required>
+      <Form.Item label="Camera Angle" required>
         <Input type="text" onChange={handleCameraAngleChange} value={beatCameraAngle}/>
       </Form.Item>
-      <Form.Item label="Beat Notes" required>
+      <Form.Item label="Notes" required>
         <Input type="text" onChange={handleNotesChange} value={beatNotes}/>
       </Form.Item>
-      <Form.Item label="Beat Time" required>
+      <Form.Item label="Time" required>
         <Input type="text" onChange={handleTimeChange} value={beatTime}/>
       </Form.Item>
       <Form.Item>
