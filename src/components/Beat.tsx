@@ -7,29 +7,32 @@ interface BeatProps {
 }
 
 const Container = styled.div`
-  border: 1px solid #dbe0ec;
-  // color: #6b6c6c;
-  background-color: #f0f4ff;
-  flex-grow: 1;
-  padding: 5px 25px;
-  // font-weight: 600;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
+  &:not(:last-child) {
+    border-bottom: 1px solid #d0d4e4;
+  }
+  padding: 12px 25px;
+  display: grid;
+  grid-template-columns: 100px 1fr;
 `;
 
 const BeatTime = styled.div`
-  .ant-typography {
-  }
-  color: #3d8ada;
-  font-weight: 500;
+  color: #0073ea;
+  font-weight: 700;
 `;
 
-const BeatName = styled.div`
-color: #64748b;
-  .ant-typography {
-  }
-  font-weight: 500;
+const BeatName = styled.span`
+  color: #323338;
+  margin-bottom: 8px;
+  font-weight: 700;
+`;
+
+const BeatContent = styled.span`
+  color: #64748b;
+`;
+
+const BeatInfo = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Beat = ({beat}: BeatProps): JSX.Element => {
@@ -43,10 +46,11 @@ export const Beat = ({beat}: BeatProps): JSX.Element => {
   return (
     <Popover title={beat.content} content={hoverContent} trigger="hover">
       <Container>
-        <Space>
-          <BeatTime>{beat.time}</BeatTime>
+        <BeatTime>{beat.time}</BeatTime>
+        <BeatInfo>
           <BeatName>{beat.name}</BeatName>
-        </Space>
+          <BeatContent>{beat.content}</BeatContent>
+        </BeatInfo>
       </Container>
     </Popover>
   );

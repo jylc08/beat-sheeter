@@ -15,6 +15,7 @@ import {
   HeaderLogo,
 } from '@/components/Header';
 import { Content, ContentHeader } from '@/components/Content';
+import { useCallback } from 'react';
 
 const ActList = styled.div`
   display: flex;
@@ -24,7 +25,11 @@ const ActList = styled.div`
 `;
 
 export default function BeetSheetPage() {
-  const { data: acts } = useActs();
+  const { data: acts, mutate } = useActs();
+
+  const handleDelete = useCallback((deletedActId: number) => {
+    mutate(acts.filter(act => act.id !== deletedActId));
+  }, [acts, mutate]);
 
   return (
     <>
@@ -44,12 +49,12 @@ export default function BeetSheetPage() {
           <ContentHeader>
             <Typography.Title level={2}>Acts</Typography.Title>
             <Link href="/act/new">
-              <Button type="primary"><PlusOutlined/>Add New Act</Button>
+              <Button type="primary"><PlusOutlined/>New Act</Button>
             </Link>
           </ContentHeader>
           <ActList>
             {acts?.map((act, index) => (
-              <Act act={act} count={index+1} key={act.id}/>
+              <Act act={act} count={index+1} key={act.id} onDelete={handleDelete}/>
             ))}
           </ActList>
         </Content>

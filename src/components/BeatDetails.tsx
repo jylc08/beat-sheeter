@@ -5,11 +5,12 @@ import { useActId } from "@/hooks/useRouterQueryId";
 import { useCallback } from "react";
 import { useDeleteBeat } from "@/hooks/useDeleteBeat";
 import { Button, Popconfirm, Space, Typography } from "antd";
-import { CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { BookOutlined, CloseOutlined, DeleteOutlined, EditOutlined, VideoCameraOutlined } from "@ant-design/icons";
 
 interface BeatProps {
   beat: BeatType;
   showDetails?: boolean;
+  onDelete?: (beatId: number) => void;
 }
 
 const BeatHeader = styled.div`
@@ -25,38 +26,65 @@ const BeatActions = styled.div`
 `;
 
 const Container = styled.div`
-  flex-grow: 1;
   padding: 10px;
 
   border-radius: 8px;
   background: #f8faff;
   box-shadow: 0px 4px 8px rgba(0, 0, 0 ,0.1);
 
+  // display: grid;
+  // grid-template-columns: 100px 1fr 
+
   &:hover ${BeatActions} {
     display: flex;
   }
 `;
 
+const BeatTime = styled(Typography.Title).attrs({ level: 3 })`
+  &.ant-typography {
+    color: #0073ea;
+    font-weight: 700;
+  }
+`;
+
+const BeatName = styled(Typography.Title).attrs({ level: 4 })`
+  &.ant-typography {
+    color: #323338;
+    margin-bottom: 0;
+  }
+`;
+
+const BeatInfo = styled.div`
+  padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const BeatContent = styled(Typography.Paragraph)`
+  color: #323338;
+`;
 
 
-export const BeatDetails = ({beat}: BeatProps): JSX.Element => {
+
+export const BeatDetails = ({beat, onDelete}: BeatProps): JSX.Element => {
   const actId = useActId();
 
   const { deleteBeat } = useDeleteBeat(beat.id);
   const handleDeleteBeat = useCallback(() => {
     deleteBeat()
       .then(() => {
-        // re-sync act data
+        onDelete?.(beat.id);
       })
       .catch(() => {
         console.error('Getting a 405 method not allowed from the endpoint');
       });
-  }, [deleteBeat]);
+  }, [beat, deleteBeat, onDelete]);
   
   return (
     <Container>
       <BeatHeader>
-        <Typography.Title level={3}>{beat.time}</Typography.Title>
+        <BeatTime>{beat.time}</BeatTime>
         <BeatActions>
           <Space>
             {actId != null && (
@@ -69,21 +97,21 @@ export const BeatDetails = ({beat}: BeatProps): JSX.Element => {
                 onConfirm={handleDeleteBeat}
                 okText="Yes"
               >
-              <Button type="default" danger><CloseOutlined/>Remove</Button>
+              <Button type="default" danger><DeleteOutlined/></Button>
             </Popconfirm>
           </Space>
         </BeatActions>
       </BeatHeader>  
-      <Typography.Title level={4}>{beat.name}</Typography.Title>
-      <Typography.Paragraph>
-        Notes: {beat.notes}
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        Camera Angle: {beat.cameraAngle}
-      </Typography.Paragraph>
-      <Typography.Paragraph strong>
-        {beat.content}
-      </Typography.Paragraph>
+      <BeatInfo>
+        <BeatName>{beat.name}</BeatName>
+        <div>
+          <BookOutlined/>{' '}Notes: {beat.notes}
+        </div>
+        <div>
+          <VideoCameraOutlined/>{' '}Camera Angle: {beat.cameraAngle}
+        </div>
+        <BeatContent>{beat.content}</BeatContent>
+      </BeatInfo>
     </Container>
   );
 }

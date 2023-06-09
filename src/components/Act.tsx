@@ -6,18 +6,18 @@ import Link from "next/link";
 import { useDeleteAct } from "@/hooks/useDeleteAct";
 import React, { useCallback } from "react";
 import { Button, Popconfirm, Space, Typography } from 'antd';
-import { CloseOutlined, EyeOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 
 interface ActProps {
   act: ActType;
   count?: number;
+  onDelete?: (actId: number) => void;
 }
 
 const BeatList = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
 `;
 
 const ActActions = styled.div`
@@ -29,7 +29,7 @@ const ActActions = styled.div`
 const ActContainer = styled.div`
   border-radius: 8px;
   background: #f8faff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0 ,0.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   
   padding: 10px;
   &:hover ${ActActions} {
@@ -44,7 +44,7 @@ const ActHeader = styled.div`
   margin-bottom: 10px;
 `;
 
-export const Act = ({act, count}: ActProps): JSX.Element => {
+export const Act = ({act, count, onDelete}: ActProps): JSX.Element => {
   const { data: beats } = useBeats(act.id);
   const { deleteAct } = useDeleteAct(act.id);
 
@@ -52,9 +52,9 @@ export const Act = ({act, count}: ActProps): JSX.Element => {
     e?.preventDefault();
     deleteAct()
       .then(() => {
-        // re-sync acts data
+        onDelete?.(act.id);
       });
-  }, [deleteAct]);
+  }, [act, deleteAct, onDelete]);
 
   return (
     <ActContainer>
@@ -73,7 +73,7 @@ export const Act = ({act, count}: ActProps): JSX.Element => {
               okText="Yes"
             >
               <Button type="default" danger>
-                <CloseOutlined/>Remove
+                <DeleteOutlined/>
               </Button>
             </Popconfirm>
           </Space>
