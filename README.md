@@ -12,7 +12,8 @@ Beat sheets are commonly used as chronological outlines of a creator’s video t
 
 The following steps require NodeJS and NPM to be installed to build and run the app in a local environment.
 
-**Beat sheet back-end**
+### Beat sheet back-end
+
 Before running the app locally, please set-up and run the back-end APIs locally. This is required for the app to fetch beat sheet data. Please follow the installation steps [here](https://github.com/fmatar/beatsheet-exercise) to clone the repository, install Docker on your local machine and run the container that serves the beat sheet APIs.
 
 ## Running the Beat Sheeter App
