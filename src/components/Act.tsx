@@ -81,7 +81,7 @@ export const Act = ({act, count, onDelete}: ActProps): JSX.Element => {
       </ActHeader>
       <BeatList>
         {beats?.map(beat => {
-          return <Beat beat={beat} key={beat.id}/>;
+          return <Beat act={act} beat={beat} key={beat.id}/>;
         })}
       </BeatList>
     </ActContainer>

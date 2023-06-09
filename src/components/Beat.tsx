@@ -1,10 +1,17 @@
 import { styled } from "styled-components";
-import { BeatType } from "./types";
-import { Popover, Space, Typography } from "antd";
+import { ActType, BeatType } from "./types";
+import { EditOutlined } from "@ant-design/icons";
+import Link from "next/link";
+import { Button } from "antd";
 
 interface BeatProps {
   beat: BeatType;
+  act: ActType;
 }
+
+const EditLink = styled(Link)`
+  display: none;
+`;
 
 const Container = styled.div`
   &:not(:last-child) {
@@ -12,7 +19,13 @@ const Container = styled.div`
   }
   padding: 12px 25px;
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 100px 1fr 50px;
+
+  &:hover {
+    ${EditLink} {
+      display: block;
+    }
+  }
 `;
 
 const BeatTime = styled.div`
@@ -35,23 +48,25 @@ const BeatInfo = styled.div`
   flex-direction: column;
 `;
 
-export const Beat = ({beat}: BeatProps): JSX.Element => {
-  const hoverContent = (
-    <>
-      <Typography.Paragraph><Typography.Text strong>Notes:</Typography.Text> {beat.notes}</Typography.Paragraph>
-      <Typography.Paragraph><Typography.Text strong>Camera Angle:</Typography.Text> {beat.cameraAngle}</Typography.Paragraph>
-    </>
-  );
-  
+const BeatActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  min-height: 50px;
+`;
+
+export const Beat = ({act, beat}: BeatProps): JSX.Element => {
   return (
-    <Popover title={beat.content} content={hoverContent} trigger="hover">
-      <Container>
-        <BeatTime>{beat.time}</BeatTime>
-        <BeatInfo>
-          <BeatName>{beat.name}</BeatName>
-          <BeatContent>{beat.content}</BeatContent>
-        </BeatInfo>
-      </Container>
-    </Popover>
+    <Container>
+      <BeatTime>{beat.time}</BeatTime>
+      <BeatInfo>
+        <BeatName>{beat.name}</BeatName>
+        <BeatContent>{beat.content}</BeatContent>
+      </BeatInfo>
+      <BeatActions>
+        <EditLink href={`/act/${act.id}/beat/${beat.id}/edit`}>
+          <Button type="default"><EditOutlined/></Button>
+        </EditLink>
+      </BeatActions>
+    </Container>
   );
 }
